@@ -9,5 +9,19 @@
 <body>
     <h1>INICIO DE PROYECTO</h1>
     
+
+    <a href="/create"> Registrar Un Nuevo Plan</a>
+
+
+    <% results.forEach((plan) => { %>
+
+        <p> Solicitud : <%= plan.ID %> </p>
+        <p> Solicitud : <%= plan.nombre %> </p>
+        <p> Solicitud : <%= plan.precio %> </p>
+        <p> Solicitud : <%= plan.facturacion %> </p>
+
+    <% }) %>
+    
+
 </body>
 </html>
