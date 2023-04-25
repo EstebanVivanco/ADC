@@ -9,15 +9,30 @@ router.get('/',  (req, res)=>{
 
 })
 
-router.get('/index',  (req, res)=>{
+router.get('/calendario',  (req, res)=>{
 
-    conexion.query('SELECT planes.ID, planes.precio, planes.facturacion, suscripcion.nombre  FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id', (error, results) => {
+    conexion.query('SELECT suscripcion.nombre AS title, DATE_FORMAT(planes.FACTURACION, "%m/%d/%Y") AS start FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id', (error, results) => {
 
         if (error){
             throw error;            
         }else{
+            res.render('calendar', {results: results});
+        }
+
+    });
+
+
+})
+
+router.get('/index',  (req, res)=>{
+
+    conexion.query('SELECT planes.ID, planes.precio, DATE_FORMAT(planes.facturacion, "%m/%d/%Y") AS Fecha, suscripcion.nombre as "sus", tipo_suscripcion.nombre FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id INNER JOIN tipo_suscripcion ON suscripcion.id_tipo = tipo_suscripcion.id', (error, results) => {
+
+        if (error){
+            throw error;            
+        }else{
+            
             res.render('index', {results: results});
-            console.log('results', results)
         }
 
     });
@@ -57,14 +72,55 @@ router.post('/buscar',  (req, res)=>{
 
     });
 
+})
 
+router.get('/update/:id',  (req, res)=>{
 
+    const id = req.params.id;
 
+    conexion.query('SELECT PRECIO, FACTURACION, ID FROM planes where id= ?',[id], (error, results) => {
+
+        if (error){
+            throw error;            
+        }else{
+            
+            const precio = results[0].PRECIO;
+            const ID = results[0].ID;
+
+            //Formateo de fecha
+            const date = results[0].FACTURACION;
+            const fecha = new Date(date);
+            const dia = fecha.getDate().toString().padStart(2, "0");
+            const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+            const anio = fecha.getFullYear().toString();
+            const fechaFormateada = `${anio}-${mes}-${dia}`;
+
+            res.render('update', {precio, fechaFormateada, ID});
+
+        }
+
+    });
+
+})
+
+router.get('/delete/:id',  (req, res)=>{
+
+    const id = req.params.id;
+
+    conexion.query('DELETE FROM planes WHERE ID = ?',[id], (error, results) => {
+
+        if (error){
+            throw error;            
+        }else{
+            res.redirect('/index');
+        }
+
+    });
 
 })
 
 
-
 const crud = require('./controllers/crud');
 router.post('/save', crud.save);
+router.post('/update', crud.update);
 module.exports = router;

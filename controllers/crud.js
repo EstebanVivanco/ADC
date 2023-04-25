@@ -9,7 +9,6 @@ exports.save = (req, res) =>{
     const precio = req.body.precio;
     const facturacion = req.body.date;
 
-
     conexion.query('INSERT INTO planes SET ?', { usuario_id_fk:usuario_id_fk, suscripcion_id_fk:suscripcion_id_fk, precio:precio, facturacion:facturacion  }, (error, results)=>{
         
         if (error) {
@@ -19,4 +18,23 @@ exports.save = (req, res) =>{
 
         }
     })
+}
+
+exports.update = (req, res) =>{
+
+    const precio = req.body.precio;
+    const date = req.body.date;
+    const id = req.body.id;
+
+    conexion.query('UPDATE planes SET ? WHERE id = ?', [{precio:precio, facturacion:date}, id], (error, results)=>{
+        if(error){
+            throw error;
+        }
+        else{
+            res.redirect('/index');
+        }
+    })
+
+
+
 }
