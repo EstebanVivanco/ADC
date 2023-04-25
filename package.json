@@ -1,0 +1,18 @@
+{
+  "name": "adc-project",
+  "version": "1.0.0",
+  "description": "Proyecto para aseguramiento de calidad",
+  "main": "app.js",
+  "scripts": {
+    "buenas": "nodemon run app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.22"
+  }
+}
