@@ -22,7 +22,7 @@
 
     <title>Inicio</title>
 </head>
-<body>
+<body style="background-image: url(svg.svg); background-repeat: no-repeat; background-size: 100%">
 
     <!-- INICIO DE NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
@@ -45,7 +45,7 @@
     <!-- FIN DEL NAVBAR -->
 
     <!-- CARRUSEL -->
-    <div id="carouselExampleCaptions" class="carousel slide">
+    <!-- <div id="carouselExampleCaptions" class="carousel slide">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -82,14 +82,21 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
-    </div>
+    </div> -->
     <!-- FIN CARRUSEL -->
+
+    <div class="container-fluid">
+      <center>
+        <img src="banner.png" alt="" width="600px">
+      </center>
+    </div>
 
 
       <div class="container">
         <a href="/create" class="btn btn-outline-primary mt-4">Crear Suscripción</a>
 
         <table class="table table-bordered table-striped  text-center mt-4">
+
             <thead>
                 <tr class="bg-warning text-white">
                     <th scope="col">ID</th>
@@ -101,7 +108,7 @@
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody style="background-color: white;">
                         <% results.forEach((plan) => { %>
                         <tr>
                             <td><%= plan.ID %></td>

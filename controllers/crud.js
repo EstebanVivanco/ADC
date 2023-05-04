@@ -9,12 +9,28 @@ exports.save = (req, res) =>{
     const precio = req.body.precio;
     const facturacion = req.body.date;
 
-    conexion.query('INSERT INTO planes SET ?', { usuario_id_fk:usuario_id_fk, suscripcion_id_fk:suscripcion_id_fk, precio:precio, facturacion:facturacion  }, (error, results)=>{
+    conexion.query('INSERT INTO planes SET ?', { usuario_id_fk:usuario_id_fk, suscripcion_id_fk:suscripcion_id_fk, precio:precio, facturacion:facturacion  }, (error, results2)=>{
         
         if (error) {
             console.log(error);
         }else{
-            res.redirect('/index');
+
+            conexion.query('SELECT planes.ID, planes.precio, DATE_FORMAT(planes.facturacion, "%m/%d/%Y") AS Fecha, suscripcion.nombre as "sus", tipo_suscripcion.nombre FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id INNER JOIN tipo_suscripcion ON suscripcion.id_tipo = tipo_suscripcion.id', (error, results) => {
+            
+                
+                res.render('buscar',{
+                    alert:true,
+                    alertTitle: 'Todo correcto',
+                    alertMessage: 'Suscripción correctamente!',
+                    alertIcon:'success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    ruta: 'index',
+                    results:results,
+                    data : 0
+                })
+
+            })
 
         }
     })
@@ -31,7 +47,24 @@ exports.update = (req, res) =>{
             throw error;
         }
         else{
-            res.redirect('/index');
+
+            conexion.query('SELECT planes.ID, planes.precio, DATE_FORMAT(planes.facturacion, "%m/%d/%Y") AS Fecha, suscripcion.nombre as "sus", tipo_suscripcion.nombre FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id INNER JOIN tipo_suscripcion ON suscripcion.id_tipo = tipo_suscripcion.id', (error, results) => {
+                
+                
+                res.render('buscar',{
+                    alert:true,
+                    alertTitle: 'Todo correcto',
+                    alertMessage: 'Se ha actualizado correctamente!',
+                    alertIcon:'success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    ruta: 'index',
+                    results:results,
+                    data : 0
+                })
+
+            })
+
         }
     })
 
