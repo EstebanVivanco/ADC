@@ -36,6 +36,37 @@ exports.save = (req, res) =>{
     })
 }
 
+exports.savenew = (req, res) =>{
+
+    const name = req.body.nombre;
+    const tipo = req.body.tipo;
+
+    conexion.query('INSERT INTO suscripcion SET ?', { Nombre:name, Id_tipo: tipo}, (error, results2)=>{
+        
+        if (error) {
+            console.log(error);
+        }else{
+
+            conexion.query('SELECT planes.ID, planes.precio, DATE_FORMAT(planes.facturacion, "%m/%d/%Y") AS Fecha, suscripcion.nombre as "sus", tipo_suscripcion.nombre FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id INNER JOIN tipo_suscripcion ON suscripcion.id_tipo = tipo_suscripcion.id', (error, results) => {
+            
+                res.render('crearsub',{
+                    alert:true,
+                    alertTitle: 'Nueva Suscripción Creada',
+                    alertMessage: 'se ha añadido '+ name + '!',
+                    alertIcon:'success',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    ruta: 'crearsub',
+                    results:results,
+                    data : 0
+                })
+
+            })
+
+        }
+    })
+}
+
 exports.update = (req, res) =>{
 
     const precio = req.body.precio;
@@ -71,3 +102,4 @@ exports.update = (req, res) =>{
 
 
 }
+
