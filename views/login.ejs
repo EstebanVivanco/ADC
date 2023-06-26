@@ -1,44 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Login Form</title>
-  <!-- Agrega los archivos CSS y JavaScript de Bootstrap -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.min.js"></script>
-  <!-- Agrega la librería Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://kit.fontawesome.com/ca048bf1d7.js" crossorigin="anonymous"></script>
+  <title>Inicio de sesión</title>
 </head>
+
 <body>
+  <img class="wave" src="wave.svg" height="100%">
   <div class="container">
-    <div class="row justify-content-center mt-5">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title text-center mb-4">Login</h3>
-            <form>
-              <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  <input type="text" class="form-control" id="username" placeholder="Enter your username">
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group">
-                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                  <input type="password" class="form-control" id="password" placeholder="Enter your password">
-                </div>
-              </div>
-              <div class="text-center">
-                <a type="submit" class="btn btn-primary" href="/index">Login</a>
-              </div>
-            </form>
+    <div class="img">
+      <img src="logologin.png" style="margin-left: 10%;">
+    </div>
+    <div class="login-container">
+      <form action="/validacion" method="post">
+        <h2>Bienvenido</h2>
+        <div class="input-div one">
+          <div class="i">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <div>
+            <h5>Correo electrónico</h5>
+            <input class="input" type="email" name="email" required/>
           </div>
         </div>
-      </div>
+        <div class="input-div two">
+          <div class="i">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div>
+            <h5>Contraseña</h5>
+            <input class="input" type="password" name="password" required/>
+          </div>
+        </div>
+        <button type="submit" class="btn">
+          Ingresar
+        </button>
+          <div>¿No tienes una cuenta? <a href="/registrarme" class="text-decoration-none text-warning fw-semibold">Registrar</a></div>
+      </form>
     </div>
   </div>
+  <script type="text/javascript" src="uwu.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <% if(typeof alert !="undefined" ){ %>
+    <script>
+      Swal.fire({
+        title: '<%= alertTitle%>',
+        text: '<%= alertMessage%>',
+        icon: '<%= alertIcon%>',
+        showConfirmButton: <%= showConfirmButton%> ,
+        timer: <%= timer %>
+            }).then(() => {
+          window.location = '/<%= ruta%>'
+        })
+    </script>
+    <% } %>
+      <script>
+          // Example starter JavaScript for disabling form submissions if there are invalid fields
+          (() => {
+            'use strict'
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+              form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                  event.preventDefault()
+                  event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+              }, false)
+            })
+          })()
+      </script>
+
+
+
+
+
 </body>
+
 </html>

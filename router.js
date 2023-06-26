@@ -25,15 +25,15 @@ router.get('/crearsub',  (req, res)=>{
 
 router.get('/graficas',  (req, res)=>{
 
+    const id_user = req.session.user.ID;
 
     
-    conexion.query('SELECT ts.nombre AS tipo_suscripcion, SUM(p.precio) AS total_gasto FROM tipo_suscripcion ts JOIN suscripcion s ON ts.id = s.Id_tipo JOIN planes p ON s.ID = p.SUSCRIPCION_ID_FK GROUP BY ts.nombre', (error, results) => {
+    conexion.query('SELECT ts.nombre AS tipo_suscripcion, SUM(p.precio) AS total_gasto FROM tipo_suscripcion ts JOIN suscripcion s ON ts.id = s.Id_tipo JOIN planes p ON s.ID = p.SUSCRIPCION_ID_FK INNER JOIN planes ON planes.suscripcion_id_fk = s.id INNER JOIN usuario ON usuario.id = planes.usuario_id_fk WHERE usuario.id = ? GROUP BY ts.nombre',[id_user],(error, results) => {
 
         if (error){
             throw error;            
         }else{
-            res.render('graficas', {results: results});
-            console.log('results :>> ', results);
+            res.render('graficas', {results: results, user:req.session.user});
         }
 
     });
@@ -42,12 +42,14 @@ router.get('/graficas',  (req, res)=>{
 
 router.get('/calendario',  (req, res)=>{
 
-    conexion.query('SELECT suscripcion.nombre AS title, DATE_FORMAT(planes.FACTURACION, "%m/%d/%Y") AS start FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id', (error, results) => {
+    const id_user = req.session.user.ID;
+
+    conexion.query('SELECT suscripcion.nombre AS title, DATE_FORMAT(planes.FACTURACION, "%m/%d/%Y") AS start FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id INNER JOIN usuario ON usuario.id = planes.usuario_id_fk WHERE usuario.id = ?',[id_user],(error, results) => {
 
         if (error){
             throw error;            
         }else{
-            res.render('calendar', {results: results});
+            res.render('calendar', {results: results, user:req.session.user });
         }
 
     });
@@ -57,13 +59,15 @@ router.get('/calendario',  (req, res)=>{
 
 router.get('/index',  (req, res)=>{
 
-    conexion.query('SELECT planes.ID, planes.precio, DATE_FORMAT(planes.facturacion, "%m/%d/%Y") AS Fecha, suscripcion.nombre as "sus", tipo_suscripcion.nombre FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id INNER JOIN tipo_suscripcion ON suscripcion.id_tipo = tipo_suscripcion.id', (error, results) => {
+    const id_user = req.session.user.ID;
+
+    conexion.query('SELECT planes.ID, planes.precio, DATE_FORMAT(planes.facturacion, "%m/%d/%Y") AS Fecha, suscripcion.nombre as "sus", tipo_suscripcion.nombre FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id INNER JOIN tipo_suscripcion ON suscripcion.id_tipo = tipo_suscripcion.id INNER JOIN usuario ON usuario.id = planes.usuario_id_fk WHERE usuario.id = ?',[id_user], (error, results) => {
 
         if (error){
             throw error;            
         }else{
             
-            res.render('index', {results: results});
+            res.render('index', {results: results, user:req.session.user });
         }
 
     });
@@ -155,4 +159,6 @@ const crud = require('./controllers/crud');
 router.post('/save', crud.save);
 router.post('/savenew', crud.savenew);
 router.post('/update', crud.update);
+router.post('/validacion', crud.validacion);
+router.post('/saveuser', crud.saveuser);
 module.exports = router;

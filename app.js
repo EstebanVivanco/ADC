@@ -1,7 +1,7 @@
 const express = require('express');
 const { json } = require('express');
 const path = require('path');
-
+const session = require('express-session');
 
 const app = express();
 
@@ -16,7 +16,15 @@ app.set('views', path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static(path.join(__dirname,'helpers')));
 
+app.use(session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true
+}));
+
+
 app.use('/', require('./router'));
+
 
 app.listen(5000, ()=>{
     console.log("Server corriendo en el puerto 5000, buenas");

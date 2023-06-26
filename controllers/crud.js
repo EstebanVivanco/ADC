@@ -1,15 +1,15 @@
 const { query } = require('../database/bd');
 const conexion = require('../database/bd');
-
+const router = require('../router');
 
 exports.save = (req, res) =>{
 
-    const usuario_id_fk = 1;
+    const id_user = req.session.user.ID;
     const suscripcion_id_fk = req.body.id_sus;
     const precio = req.body.precio;
     const facturacion = req.body.date;
 
-    conexion.query('INSERT INTO planes SET ?', { usuario_id_fk:usuario_id_fk, suscripcion_id_fk:suscripcion_id_fk, precio:precio, facturacion:facturacion  }, (error, results2)=>{
+    conexion.query('INSERT INTO planes SET ?', { usuario_id_fk:id_user, suscripcion_id_fk:suscripcion_id_fk, precio:precio, facturacion:facturacion  }, (error, results2)=>{
         
         if (error) {
             console.log(error);
@@ -103,3 +103,67 @@ exports.update = (req, res) =>{
 
 }
 
+exports.validacion = (req, res)=>{
+
+    const correo = req.body.email;
+    const pass = req.body.password;
+
+    if(correo && pass){
+        conexion.query('SELECT * FROM usuario WHERE correo = ? AND password = ? ', [correo, pass], (error, results)=>{
+            if(error){
+                throw error;
+            }else{
+                if(results.length > 0){
+                    //ENTRA
+                    res.render('login',{
+                        alert:true,
+                        alertTitle: 'Conexion exitosa',
+                        alertMessage: '¡Bienvenido! ',
+                        alertIcon:'success',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        ruta: 'index',
+                        user: req.session.user = results[0]
+                    })
+                }else{
+                    //NO ENTRA
+                    res.render('login',{
+                        alert:true,
+                        alertTitle: 'Error',
+                        alertMessage: 'Nombre o contraseña incorrectos!',
+                        alertIcon:'error',
+                        showConfirmButton: true,
+                        timer: false,
+                        ruta: ''
+                    })
+                }
+            }
+        })
+    }
+
+}
+
+exports.saveuser =(req, res)=>{
+    const rut_usuario = req.body.rut;
+    const nombre_usuario = req.body.name;
+    const email_usuario = req.body.correo;
+    const password_usuario = req.body.password;
+
+    conexion.query('insert into usuario  SET ?', {rut:rut_usuario, Nombre:nombre_usuario, Correo:email_usuario, Password:password_usuario}, (error, results)=>{
+
+        if(error){
+            throw error;
+        }else{
+            res.render('registrouser',{
+                alert:true,
+                alertTitle: 'Registro',
+                alertMessage: '¡Registro de usuario exitoso!',
+                alertIcon:'success',
+                showConfirmButton: false,
+                timer: 1500,
+                ruta: ''
+            })
+        }
+        
+    })
+}
