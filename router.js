@@ -9,9 +9,34 @@ router.get('/',  (req, res)=>{
 
 })
 
-router.get('/camera',  (req, res)=>{
+router.get('/registrarme',  (req, res)=>{
 
-    res.render('camera');
+    res.render('registrouser');
+
+})
+
+router.get('/crearsub',  (req, res)=>{
+
+    conexion.query('SELECT * FROM tipo_suscripcion', (error, results) => {
+        res.render('crearsub', {results: results});
+    })
+
+})
+
+router.get('/graficas',  (req, res)=>{
+
+
+    
+    conexion.query('SELECT ts.nombre AS tipo_suscripcion, SUM(p.precio) AS total_gasto FROM tipo_suscripcion ts JOIN suscripcion s ON ts.id = s.Id_tipo JOIN planes p ON s.ID = p.SUSCRIPCION_ID_FK GROUP BY ts.nombre', (error, results) => {
+
+        if (error){
+            throw error;            
+        }else{
+            res.render('graficas', {results: results});
+            console.log('results :>> ', results);
+        }
+
+    });
 
 })
 
@@ -128,5 +153,6 @@ router.get('/delete/:id',  (req, res)=>{
 
 const crud = require('./controllers/crud');
 router.post('/save', crud.save);
+router.post('/savenew', crud.savenew);
 router.post('/update', crud.update);
 module.exports = router;

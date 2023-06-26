@@ -7,12 +7,14 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300&display=swap" rel="stylesheet">
     <title>Inicio</title>
 </head>
 <body>
 
-    <!-- INICIO DE NAVBAR -->
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Inicio</a>
@@ -23,23 +25,28 @@
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="index">Inicio</a>
             <a class="nav-link active" aria-current="page" href="calendario">Calendario</a>
-            <a class="nav-link active" aria-current="page" href="graficas">Gráficas</a>
+            <!-- <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link disabled">Disabled</a> -->
           </div>
         </div>
       </div>
-  </nav>
-  <!-- FIN DEL NAVBAR -->
-
+    </nav>
+    <!-- FIN NAVBAR -->
+    <!-- font-family: 'Bebas Neue', sans-serif; -->
+    <!-- font-family: 'Roboto', sans-serif; -->
       <div class="container mt-4">
-        <div class="card border-secondary">
+        <div class="card border-secondary mt-2">
             <div class="card-header"> Nuevo Registro</div>
             <div class="card-body">
-                <form action="/buscar" method="POST">
+                <form action="/savenew" method="POST">
 
                     <div class="mb-3">
-                      <label for="" class="form-label">Tipo de Suscripción</label>
-
-                      <select id="id" name="id" class="form-select" tabindex="2">
+                      <label for="" class="form-label">Nombre de la Suscripción</label>
+                      <input type="text" id="nombre" name="nombre" class="form-control">
+                        
+                      <label for="" class="form-label mt-4"> Categoría: </label>
+                      <select id="tipo" name="tipo" class="form-select" tabindex="2">
                         <option selected> Seleccione una opción: </option>
                         <% results.forEach((tipo) => { %>
                         <option value="<%= tipo.Id %>" > <%= tipo.Nombre %> </option>
@@ -48,61 +55,16 @@
 
                     </div>
            
-                    <button type="submit" class="btn btn-warning">Buscar</button>
+                    <button type="submit" class="btn btn-warning">Crear</button>
 
                   </form>
 
-                  <form method="POST" action="/save"> 
-
-                    <% if(data != 0){ %>
-                        
-                      <hr class="mt-40">
-
-                      <h5 class="modal-title">Selecciona entre las opciones: </h5>
-
-                      <label for="" class="form-label mt-4"> Suscripciones Disponibles : </label>
-
-
-                        <select id="id_sus" name="id_sus" class="form-select" tabindex="2">
-
-                          <% data.forEach((sus) => { %>
-                          <option value="<%= sus.ID %>" > <%= sus.Nombre %> </option>
-                          <% }) %>
-
-                        </select>
-                      
-                      <label for="" class="form-label mt-4"> Precio de la Suscripción : </label>
-                      
-                      <input type="number" id="precio" name="precio" class="form-control" placeholder="Precio de la Suscripción">
-                        
-                        
-                      <label for="" class="form-label mt-4"> Fecha de facturación : </label>
-                      
-                      <input type="date" id="date" name="date" class="form-control" placeholder="Precio de la Suscripción">
-
-                      <button type="submit" class="btn btn-warning mt-4"> Guardar Registro </button>
-
-
-                      <% } %>
-
-                  </form>
+              
                   
             </div>
         </div>
       </div>
 
-      <div class="container mt-4">
-        <div class="card border-secondary">
-          <div class="card-header"> Crear Suscripción</div>
-            <div class="card-body">
-              <p class="lead">
-                Si no encuetras lo que buscas, añadela en el siguiente formulario
-              </p>
-              <a href="crearsub" class="btn btn-warning">Crear</a>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
