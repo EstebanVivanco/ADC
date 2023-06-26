@@ -9,6 +9,12 @@ router.get('/',  (req, res)=>{
 
 })
 
+router.get('/camera',  (req, res)=>{
+
+    res.render('camera');
+
+})
+
 router.get('/calendario',  (req, res)=>{
 
     conexion.query('SELECT suscripcion.nombre AS title, DATE_FORMAT(planes.FACTURACION, "%m/%d/%Y") AS start FROM planes INNER JOIN suscripcion ON planes.suscripcion_id_fk = suscripcion.id', (error, results) => {

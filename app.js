@@ -2,6 +2,7 @@ const express = require('express');
 const { json } = require('express');
 const path = require('path');
 
+
 const app = express();
 
 app.use(express.urlencoded({extended:false}));
@@ -20,3 +21,4 @@ app.use('/', require('./router'));
 app.listen(5000, ()=>{
     console.log("Server corriendo en el puerto 5000, buenas");
 });
+
