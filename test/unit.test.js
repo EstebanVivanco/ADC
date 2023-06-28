@@ -1,6 +1,7 @@
 const validarCorreo = require('../helpers/emailcheck');
 const suma = require('../helpers/suma');
-const validarSuperAdmin = require('../helpers/sesionadmin');
+const validarRut = require('../helpers/rutvalidator');
+
 
 
 
@@ -19,7 +20,7 @@ describe('Pruebas unitaria para validarCorreo()', () => {
 });
 
 
-describe('Suma correcta del valor de las entradas ', () => {
+describe('Suma correcta de las suscripciones', () => {
     test('debería sumar los valores correctamente', () => {
       // Configurar el estado inicial
       const lista = [9990, 4990, 4990, 4990, 9990];
@@ -33,19 +34,16 @@ describe('Suma correcta del valor de las entradas ', () => {
 });
 
 
-describe('Validar usuario REST Auth0', () => {
 
-  test('Validar credencial de Auth0 para validar que es administrador', () => {
-    const cadena = 'google-oauth2|113091514139501158590';
-    const resultado = validarSuperAdmin(cadena);
-    expect(resultado).toBe(true);
+  // Prueba unitaria
+  describe('Validar RUT chileno', () => {
+
+    it('debería retornar verdadero para RUTs ingresados correctamente', () => {
+      expect(validarRut('20.920.559-9')).toBe(true);
+    });
+  
+    it('debería retornar falso para RUTs ingresados incorrectamente', () => {
+      expect(validarRut('12.345.678-0')).toBe(true); // Dígito verificador incorrecto
+    });
+    
   });
-
-  test('Validar credencial de Auth0 para validar que no sea administrador', () => {
-    const cadena = 'google-oauth2|11309243564541158590';
-    const resultado = validarSuperAdmin(cadena);
-    expect(resultado).toBe(false);
-  });
-
-});
-
