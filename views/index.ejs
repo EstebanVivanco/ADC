@@ -52,6 +52,14 @@
       </center>
     </div>
 
+    <center>
+        <div class="container">
+            <div class="row">
+                  <h5 id="gasto"> 0 </h5>
+            </div>
+        </div>
+    </center>
+
       <div class="container">
         <a href="/create" class="btn btn-outline-primary mt-4 mb-3">Crear Suscripción</a>
 
@@ -145,6 +153,30 @@ $(document).ready(function() {
 </script>
 
 
+<script>
+        // Obtén una referencia a la tabla o columna específica
+    var table = document.getElementById('table'); // Reemplaza 'miTabla' con el ID de tu tabla
+    var gasto = document.getElementById('gasto'); 
+    var column = 3; // Reemplaza 2 con el índice de la columna 'precio' (0 para la primera columna, 1 para la segunda, etc.)
+
+    var sum = 0; // Variable de suma inicializada en 0
+
+    // Itera sobre cada fila de la tabla (omitimos la primera fila de encabezado)
+    for (var i = 1; i < table.rows.length; i++) {
+    var cell = table.rows[i].cells[column];
+    var cellValue = parseFloat(cell.textContent);
+
+    if (!isNaN(cellValue)) {
+        sum += cellValue;
+    }
+    }
+
+    // Muestra o utiliza el valor acumulado de la suma
+    console.log('La suma total de la columna "precio" es: ' + sum);
+
+    gasto.innerHTML = 'Gasto Mensual en Suscripciones: $' + sum;
+
+</script>
 
 
 
